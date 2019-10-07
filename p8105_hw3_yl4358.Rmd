@@ -107,3 +107,32 @@ brfss_smart2010 =
   )
 ```
 
+```{r}
+states_grt7_2002 =
+  brfss_smart2010 %>% 
+  filter(year == 2002) %>% 
+  group_by(locationabbr) %>% 
+  summarize(
+    n_unique = n_distinct(locationdesc)
+  ) %>% 
+  filter(n_unique >= 7) %>% 
+  rename(state = locationabbr, number_of_locations = n_unique) %>% 
+  knitr::kable()
+
+states_grt7_2002
+
+states_grt7_2010 =
+  brfss_smart2010 %>% 
+  filter(year == 2010) %>% 
+  group_by(locationabbr) %>% 
+  summarize(
+    n_unique = n_distinct(locationdesc)
+  ) %>% 
+  filter(n_unique >= 7) %>% 
+  rename(state = locationabbr, number_of_locations = n_unique) %>% 
+  knitr::kable()
+
+states_grt7_2010
+```
+
+* In 2002, `CT`, `FL`, `MA`, `NC`, `NJ` and `PA` were observed at 7 or more locations; In 2010, `CA`, `CO`, `FL`, `MA`, `MD`, `NE`, `NJ`, `NY`, `OH`, `PA`, `SC`, `TX`, `WA` and `NC` were observed at 7 or more locations.
