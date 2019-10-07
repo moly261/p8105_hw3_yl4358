@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-Problem 1
+# Problem 1
 ```{r}
 library(p8105.datasets)
 data("instacart")
@@ -89,3 +89,21 @@ instacart_4
 ```
 
 * People are more likely to order `Coffee Ice Cream` during 12:00pm-15:00pm which is teatime and order `Pink Lady Apples` during 11:00am to 14:00 pm when having lunch.
+
+
+# Problem 2
+
+```{r}
+library(p8105.datasets)
+data("brfss_smart2010")
+
+brfss_smart2010 = 
+  brfss_smart2010 %>% 
+  janitor::clean_names() %>% 
+  filter(topic == "Overall Health" ) %>% 
+  filter(response == "Excellent" | response == "Very good" | response == "Good" | response == "Fair" | response == "Poor") %>% 
+  mutate(
+    response = factor(response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent"))
+  )
+```
+
