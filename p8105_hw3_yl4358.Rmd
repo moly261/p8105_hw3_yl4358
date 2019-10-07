@@ -214,3 +214,46 @@ mutate_if(is.double, as.integer) %>%
 ```
 
 * `accel_data` dataset has `r nrow(accel_data)` rows and `r ncol(accel_data)` columns. The resulting dataset has `r names(accel_data)` variables and `r length(accel_data$week)` observations.
+
+```{r}
+total_activity_accel = 
+  accel_data %>% 
+  group_by(week, day) %>% 
+  summarize(
+    total_activity_count = sum(activity_counts)
+  ) 
+  
+ table_activity = 
+   total_activity_accel %>% 
+   pivot_wider(
+    names_from = "day",
+    values_from = "total_activity_count"
+  ) %>% 
+  select(week, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday) %>% 
+  knitr::kable()
+  
+table_activity
+```
+
+* As seen from the table, trends are not apparent.
+
+```{r}
+total_activity_accel %>%
+  ungroup() %>% 
+group_by(day) %>% 
+  ggplot(aes(x = week, y = total_activity_count, color = day)) +
+  geom_point() + 
+  geom_line() +
+  labs(
+    title = "24-hour activity for each day",
+    x = "Week",
+    y = "24-hour activity"
+  ) +
+  viridis::scale_color_viridis(
+    name = "Day", 
+    discrete = TRUE
+  ) +
+   theme_bw() +
+  theme(legend.position = "bottom") 
+```
+
