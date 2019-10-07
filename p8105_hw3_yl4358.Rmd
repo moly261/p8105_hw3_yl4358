@@ -257,3 +257,4 @@ group_by(day) %>%
   theme(legend.position = "bottom") 
 ```
 
+* Inspection of activity of this 63 year-old male is more steady from Tuesday to Thursday, while changes greatly from Friday to Monday.
