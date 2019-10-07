@@ -11,11 +11,22 @@ library(tidyverse)
 ```
 
 Problem 1
-
 ```{r}
 library(p8105.datasets)
 data("instacart")
-
-
 ```
 
+* The `instacart` dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns; Key variables include `user_id`, `product_name`, `order_number`, `order_dow`, `order_hour_of_day` and so on. Every observation illustrates the product name, its order time, user's relevant ordering information, its belonging aisle and department.
+
+```{r}
+instacart_1 =
+  instacart %>%
+  group_by(aisle) %>% 
+  summarize(n = n()) %>% 
+  arrange(desc(n))
+
+head(instacart_1,10) %>% 
+knitr::kable()
+```
+
+**There are `r nrow(instacart_1)` aisles there and `fresh vegetables` and `fresh fruits` aisles are the most items ordered from.
