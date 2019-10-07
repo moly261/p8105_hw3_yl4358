@@ -70,4 +70,22 @@ instacart_3
 
 * Concluded from the table, most popular items in `baking ingredient`, `dog food care` and `packaged vegetables fruits` aisle are respectively `light brown sugar`, `snack sticks chicken & rice recipe dog treats` and `organic baby spinach`.
 
+```{r}
+instacart_4 = 
+  instacart %>% 
+  filter(product_name == "Pink Lady Apples" | product_name == "Coffee Ice Cream") %>% 
+  group_by(product_name, order_dow) %>% 
+  summarize(
+    mean_hour_of_the_day = round(mean(order_hour_of_day), digits = 1)
+  ) %>% 
+  pivot_wider(
+    names_from = "order_dow",
+    values_from = "mean_hour_of_the_day"
+  ) %>%
+  rename( Monday = '0', Tuesday = '1', Wednesday = '2', Thursday = '3', Friday = '4', Saturday = '5', Sunday = '6') %>% 
+  knitr::kable()
 
+instacart_4
+```
+
+* People are more likely to order `Coffee Ice Cream` during 12:00pm-15:00pm which is teatime and order `Pink Lady Apples` during 11:00am to 14:00 pm when having lunch.
