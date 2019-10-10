@@ -40,22 +40,22 @@ knitr::kable()
 ```{r}
 instacart_2 =
   instacart %>%
-  group_by(aisle_id) %>% 
+  group_by(aisle) %>% 
   summarize(n = n()) %>%
-  arrange(desc(n)) %>% 
   filter(n >= 10000) %>% 
-   ggplot(aes(x = aisle_id, y = n)) + 
-    geom_point(color = "blue", size = 3) + geom_line(color = "blue") +
+   ggplot(aes(x = aisle, y = n)) + 
+    geom_bar(stat = "identity", fill = "coral") + 
   labs(
     title = "The number of items ordered in each aisle",
-    x = "Aisle ID",
+    x = "Aisle ",
     y = "The number of items ordered"
   ) +
-  theme_bw()
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.5, vjust = 0.5))
 instacart_2
 ```
 
-* We use point and line plot to display the number of items ordered in each aisle, they are quite different among aisles. As we can see, aisle 24 (fresh fruits) and aisle 83 (fresh vegetables) are aisles most items ordered from. Plot is so clear and straightforward that we could get information from it.
+* We use bar chart to display the number of items ordered in each aisle, they are quite different among aisles. As we can see, fresh fruits aisle and fresh vegetables aisle are aisles most items ordered from. Plot is so clear and straightforward that we could get information from it.
 
 ```{r}
 instacart_3 =
@@ -170,9 +170,9 @@ excellent_df %>%
 brfss_smart2010 %>% 
   filter(year == 2006 | year == 2010) %>%
   filter(locationabbr == "NY") %>% 
-  group_by(year, response) %>%
-  ggplot(aes(x = response, y = data_value)) +
-  geom_boxplot() +
+  group_by(year, locationdesc) %>%
+  ggplot(aes(x = response, y = data_value, color = locationdesc, group = locationdesc)) +
+  geom_point() + geom_line()+
   labs(
     title = "Distribution of data value for response among locations in NY States",
     x = "Response",
@@ -181,9 +181,10 @@ brfss_smart2010 %>%
   theme_bw() +
   theme(legend.position = "bottom") +
   facet_grid(.~year)
+  
 ```
 
-* Concluded from the plot, `Good` and `Very good` response have high data value compared with other responses among locations in NY state.
+* Concluded from the plot, `Good`, `Very good` and `Excellent` responses have high data value while `Poor` and `Fair` responses have low data value among locations in NY state.
 
 
 # Problem 3
@@ -238,16 +239,14 @@ table_activity
 * As seen from the table, trends are not apparent.
 
 ```{r}
-total_activity_accel %>%
-  ungroup() %>% 
-group_by(day) %>% 
-  ggplot(aes(x = week, y = total_activity_count, color = day)) +
-  geom_point() + 
-  geom_line() +
+accel_data %>%
+group_by(week,day) %>% 
+  ggplot(aes(x = activity_id, y = activity_counts, color = day)) +
+  geom_area() + 
   labs(
     title = "24-hour activity for each day",
-    x = "Week",
-    y = "24-hour activity"
+    x = "24-hour activity",
+    y = "Activity counts"
   ) +
   viridis::scale_color_viridis(
     name = "Day", 
