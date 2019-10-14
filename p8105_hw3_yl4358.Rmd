@@ -259,8 +259,7 @@ group_by(week,day) %>%
     discrete = TRUE
   ) +
    theme_bw() +
-  theme(legend.position = "bottom") +
-  facet_grid(.~week)
+  theme(legend.position = "bottom") 
 ```
 
 * Inspection of activity of this 63 year-old male is more steady from Tuesday to Thursday, while changes greatly from Friday to Monday.
